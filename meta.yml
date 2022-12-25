@@ -1,0 +1,7 @@
+users:
+  - name: test
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPQGjxHt39SYvbsQf7a6ypVcvIVV+MR7i4MI13iewO0bC/rZ+5+4upux4BrW2P6/FYl92MM2yDc7H8fYQ5IPSkCoBfWacXrvwL8V9rjtZuN5S9za/ZsTJUg/RnjDd2PtkV7kyqCxbr4MgCVyQqVUdud8OzOi5YJltxPtrYPvNfcxgK3K6VFR4EXCUrrHMpWbTVQb7TnWQTkWC2hHvEPo54cxj5xrNdcyioILgVu2UJCV0yLnUOIwnbTIPN9jkCdNNb4MXkWVoQDipSTV9BnCoblG1tCrHgPHrUf+nOaHTJldlrYhhy1nMBavYkr+xBq0RnXeIzDIfJBAV0DLqFLiekALmaZK85DZSayzdOjSSY53l3FfFmqcRZBdQ6+ogBQYMIyW0AfOBwf7gpTlFC/V6ZBlN0951XSzNl1Htw4h2oGqkeL9Y++YsA4igft88cyxw/U5c8yEQDTsQfBzdhYqCNFo24xKyjY2E7Bqmb6/QjkNs/0OAWSSww44OVX28i/x8= root@test
