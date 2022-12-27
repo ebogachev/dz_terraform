@@ -21,11 +21,13 @@ resource "yandex_compute_instance" "vm-test1" {
 
   resources {
     cores  = 2
-    memory = 4
+    memory = 2
   }
 
   boot_disk {
     initialize_params {
+      size     = 10
+      type     = "network-hdd"
       image_id = "fd8k5kam36qhmnojj8je" # ОС (Ubuntu, 20.04 LTS)
     }
   }
@@ -36,6 +38,17 @@ resource "yandex_compute_instance" "vm-test1" {
   }
 
   metadata = {
-    user-data = "${file("./meta.yml")}"
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
+    provisioner "remote-exec" {
+        inline = [
+          "echo> file.txt"
+        ]
+        connection {
+            type = "ssh"
+            user = "ubuntu"
+            private_key = "${file("~/.ssh/id_rsa")}"
+        }
+
+    }
 }
