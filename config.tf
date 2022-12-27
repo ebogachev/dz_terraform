@@ -45,7 +45,7 @@ resource "yandex_compute_instance" "vm-test1" {
         inline = [
           "sudo apt update && sudo apt install -y default-jdk maven git",
           "git clone https://github.com/ebogachev/boxfuse.git",
-          "cd boxfuse-sample-java-war-hello && mvn package",
+          "cd boxfuse && mvn package",
           "git init && cp ./target/hello-1.0.war ./ && git add . && git commit -m 'test'",          
           "git push https://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@github.com/ebogachev/boxfuse.git"
         ]
@@ -59,6 +59,7 @@ resource "yandex_compute_instance" "vm-test1" {
     }  
 }
 resource "yandex_compute_instance" "vm-test2" {
+  depends_on = [yandex_compute_instance.vm-test1]
   name        = "test2"
   platform_id = "standard-v1"
   zone        = "ru-central1-a"
