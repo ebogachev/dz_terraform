@@ -34,7 +34,7 @@ resource "yandex_compute_instance" "vm-test1" {
 
   network_interface {
     subnet_id = "e9b91jlodqkgqgrm2op0" # одна из дефолтных подсетей
-    nat = true # автоматически установить динамический ip
+    nat = true # автоматически установить динамический ip   
   }
 
   metadata = {
@@ -42,7 +42,9 @@ resource "yandex_compute_instance" "vm-test1" {
   }
     provisioner "remote-exec" {
         inline = [
-          "echo> file.txt"
+          "sudo apt update && sudo apt install -y default-jdk maven git",
+          "git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git",
+          "cd boxfuse-sample-java-war-hello && mvn package"
         ]
         connection {
             type = "ssh"
@@ -50,5 +52,5 @@ resource "yandex_compute_instance" "vm-test1" {
             private_key = "${file("~/.ssh/id_rsa")}"
         }
 
-    }
+    }  
 }
