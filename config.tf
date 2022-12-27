@@ -34,7 +34,8 @@ resource "yandex_compute_instance" "vm-test1" {
 
   network_interface {
     subnet_id = "e9b91jlodqkgqgrm2op0" # одна из дефолтных подсетей
-    nat = true # автоматически установить динамический ip   
+    nat = true # автоматически установить динамический ip
+    #nat_ip_address = "51.250.11.49"
   }
 
   metadata = {
@@ -43,14 +44,60 @@ resource "yandex_compute_instance" "vm-test1" {
     provisioner "remote-exec" {
         inline = [
           "sudo apt update && sudo apt install -y default-jdk maven git",
-          "git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git",
-          "cd boxfuse-sample-java-war-hello && mvn package"
+          "git clone https://github.com/ebogachev/boxfuse.git",
+          "cd boxfuse-sample-java-war-hello && mvn package",
+          "git init && cp ./target/hello-1.0.war ./ && git add . && git commit -m 'test'",          
+          "git push https://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@github.com/ebogachev/boxfuse.git"
         ]
         connection {
+            host = self.network_interface.0.nat_ip_address
             type = "ssh"
             user = "ubuntu"
             private_key = "${file("~/.ssh/id_rsa")}"
-        }
+        } 
+
+    }  
+}
+resource "yandex_compute_instance" "vm-test2" {
+  name        = "test2"
+  platform_id = "standard-v1"
+  zone        = "ru-central1-a"
+
+  resources {
+    cores  = 2
+    memory = 2
+  }
+
+  boot_disk {
+    initialize_params {
+      size     = 10
+      type     = "network-hdd"
+      image_id = "fd8k5kam36qhmnojj8je" # ОС (Ubuntu, 20.04 LTS)
+    }
+  }
+
+  network_interface {
+    subnet_id = "e9b91jlodqkgqgrm2op0" # одна из дефолтных подсетей
+    nat = true # автоматически установить динамический ip
+    #nat_ip_address = "51.250.11.49"
+  }
+
+  metadata = {
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+  }
+    provisioner "remote-exec" {
+        inline = [
+          "sudo apt update && sudo apt install -y tomcat9",
+          "git clone https://github.com/ebogachev/boxfuse.git",
+          "cp ./boxfuse/hello-1.0.war /var/lib/tomcat9/webapps/"
+          
+        ]
+        connection {
+            host = self.network_interface.0.nat_ip_address
+            type = "ssh"
+            user = "ubuntu"
+            private_key = "${file("~/.ssh/id_rsa")}"
+        } 
 
     }  
 }
