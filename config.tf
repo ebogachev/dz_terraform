@@ -88,7 +88,7 @@ resource "yandex_compute_instance" "vm-test2" {
   }
     provisioner "remote-exec" {
         inline = [
-          "sudo apt update && sudo apt install -y tomcat9",
+          "sudo apt update && sudo apt install -y tomcat9 git",
           "git clone https://github.com/ebogachev/boxfuse.git",
           "cp ./boxfuse/hello-1.0.war /var/lib/tomcat9/webapps/"
           
