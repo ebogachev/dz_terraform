@@ -35,7 +35,6 @@ resource "yandex_compute_instance" "vm-test1" {
   network_interface {
     subnet_id = "e9b91jlodqkgqgrm2op0" # одна из дефолтных подсетей
     nat = true # автоматически установить динамический ip
-    #nat_ip_address = "51.250.11.49"
   }
 
   metadata = {
@@ -59,7 +58,7 @@ resource "yandex_compute_instance" "vm-test1" {
     }  
 }
 resource "yandex_compute_instance" "vm-test2" {
-  depends_on = [yandex_compute_instance.vm-test1]
+  depends_on = [yandex_compute_instance.vm-test1] # запускаем задание после выполнения 1-го
   name        = "test2"
   platform_id = "standard-v1"
   zone        = "ru-central1-a"
@@ -80,7 +79,6 @@ resource "yandex_compute_instance" "vm-test2" {
   network_interface {
     subnet_id = "e9b91jlodqkgqgrm2op0" # одна из дефолтных подсетей
     nat = true # автоматически установить динамический ip
-    #nat_ip_address = "51.250.11.49"
   }
 
   metadata = {
